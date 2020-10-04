@@ -2,17 +2,19 @@
 local interface = CreateFrame("Frame", "TaunterinoConfig", UIParent)
 
 local inCombatButton = CreateFrame("CheckButton", "inCombatButton", interface, "OptionsBaseCheckButtonTemplate")
-inCombatButton:SetPoint("TOPLEFT", 0, 0);
---inCombatButton_GlobalNameText:SetText("Disable in Combat");
---getglobal(inCombatButton:GetName() .. 'Text'):SetText("CheckBox Name");
-print(inCombatButton)
+inCombatButton:SetPoint("TOPLEFT", 20, -20);
+local inCombatButtonText = inCombatButton:CreateFontString("inCombatButtonText", "OVERLAY")
+inCombatButtonText:SetPoint("LEFT", 32, 1)
+inCombatButtonText:SetFont("Fonts\\FRIZQT__.TTF", 12)
+inCombatButtonText:SetText('Disable in Combat')
+inCombatButton.text = inCombatButtonText
 
 interface.name = "Taunterino"
 interface.okay = function()
-    print("Okay")
+    print("okay")
 end
 interface.cancel = function()
-    print("Canceling")
+    print("cancel")
 end
 InterfaceOptions_AddCategory(interface)
 
