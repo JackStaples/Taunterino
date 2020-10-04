@@ -1,30 +1,29 @@
+local name, addon = ...
 
 -- setup the options
 local interface = CreateFrame("Frame", "TaunterinoConfig", UIParent)
+interface:RegisterEvent("ADDON_LOADED")
 
 -- toggle to allow users to prevent noise while in combat
-local inCombatButton = CreateFrame("CheckButton", "inCombatButton", interface, "OptionsBaseCheckButtonTemplate")
-inCombatButton:SetPoint("TOPLEFT", 20, -20);
-local inCombatButtonText = inCombatButton:CreateFontString("inCombatButtonText", "OVERLAY")
-inCombatButtonText:SetPoint("LEFT", 32, 1)
-inCombatButtonText:SetFont("Fonts\\FRIZQT__.TTF", 12)
-inCombatButtonText:SetText('Disable in Combat')
-inCombatButton.text = inCombatButtonText
-local function inCombatButtonToggleHandler(self)
-    return
-end
-inCombatButton:SetScript("OnClick", inCombatButtonToggleHandler)
+local function onLoad(self, event, arg1)
+    if name ~= arg1 then return
+    end
+    local inCombatButton = CreateFrame("CheckButton", "inCombatButton", interface, "OptionsBaseCheckButtonTemplate")
+    inCombatButton:SetPoint("TOPLEFT", 20, -20);
+    local inCombatButtonText = inCombatButton:CreateFontString("inCombatButtonText", "OVERLAY")
+    inCombatButtonText:SetPoint("LEFT", 32, 1)
+    inCombatButtonText:SetFont("Fonts\\FRIZQT__.TTF", 12)
+    inCombatButtonText:SetText('Disable in Combat')
+    inCombatButton.text = inCombatButtonText
+    local function inCombatButtonToggleHandler(self)
+        return
+    end
+    inCombatButton:SetScript("OnClick", inCombatButtonToggleHandler)
 
-interface.name = "Taunterino"
-interface.okay = function()
-    print("okay")
+    interface.name = "Taunterino"
+    InterfaceOptions_AddCategory(interface)
 end
-interface.cancel = function()
-    print("cancel")
-end
-InterfaceOptions_AddCategory(interface)
-
-
+interface:SetScript("OnEvent", onLoad)
 
 -- This handles the actual taunting
 local frame = CreateFrame("Frame", "Taunterino")
