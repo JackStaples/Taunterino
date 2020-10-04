@@ -2,7 +2,7 @@
 ## Title: Taunterino
 ## Author: Jack Staples
 ## Version: 2.0.0
-## SavedVariables: DisabledInCombat
+## SavedVariables: DisabledInCombat, DisabledInWorld, DisabledInBattleground, DisabledInDungeon, DisabledInRaid
 
 
 main.lua
