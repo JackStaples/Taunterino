@@ -8,6 +8,10 @@ interface:RegisterEvent("ADDON_LOADED")
 local function onLoad(self, event, arg1)
     if name ~= arg1 then return
     end
+    if DisabledInCombat == nil 
+    then 
+        DisabledInCombat = false
+    end
     local inCombatButton = CreateFrame("CheckButton", "inCombatButton", interface, "OptionsBaseCheckButtonTemplate")
     inCombatButton:SetPoint("TOPLEFT", 20, -20);
     local inCombatButtonText = inCombatButton:CreateFontString("inCombatButtonText", "OVERLAY")
@@ -15,8 +19,14 @@ local function onLoad(self, event, arg1)
     inCombatButtonText:SetFont("Fonts\\FRIZQT__.TTF", 12)
     inCombatButtonText:SetText('Disable in Combat')
     inCombatButton.text = inCombatButtonText
+    inCombatButton:SetChecked(DisabledInCombat)
     local function inCombatButtonToggleHandler(self)
-        return
+        if DisabledInCombat == true 
+        then 
+            DisabledInCombat = false
+        else 
+            DisabledInCombat = true
+        end
     end
     inCombatButton:SetScript("OnClick", inCombatButtonToggleHandler)
 
@@ -29,9 +39,7 @@ interface:SetScript("OnEvent", onLoad)
 local frame = CreateFrame("Frame", "Taunterino")
 frame:RegisterEvent("CHAT_MSG_GUILD")
 local function guildMessageHandler(self, event, message, ...)
-    local inCombatDisabled = inCombatButton:GetChecked()
-    print(inCombatDisabled)
-    if inCombatDisabled then
+    if DisabledInCombat then
         if UnitAffectingCombat('player') then return 
         end
     end
