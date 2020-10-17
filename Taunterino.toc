@@ -1,8 +1,8 @@
-## Interface: 80300
+## Interface: 90001
 ## Title: Taunterino
 ## Author: Jack Staples
-## Version: 2.0.0
-## SavedVariables: DisabledInCombat, DisabledInWorld, DisabledInBattleground, DisabledInDungeon, DisabledInRaid
+## Version: 2.0.1
+## SavedVariables: DisabledInCombat, DisabledInWorld, DisabledInBattleground, DisabledInDungeon, DisabledInRaid, DisabledInArena
 
 
 main.lua

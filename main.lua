@@ -29,13 +29,6 @@ local function addButtonToggleHandle(button, saved_variable)
     button:SetScript("OnClick", toggleHandler)
 end
 
-local function addInCombatButton()
-    local inCombatButton = createCheckButton()
-    inCombatButton:SetPoint("TOPLEFT", 20, -20);
-    addLabelToInterfaceOption(inCombatButton, 'Disable in Combat')
-    addButtonToggleHandle(inCombatButton, "DisabledInCombat")
-end
-
 local function addInterfaceToggleButton(yPosition, label, saved_variable)
     local inCombatButton = createCheckButton()
     inCombatButton:SetPoint("TOPLEFT", 20, yPosition);
@@ -55,20 +48,49 @@ local function checkForInitialLoad()
     makeSureGlobalIsSet("DisabledInBattleground")
     makeSureGlobalIsSet("DisabledInDungeon")
     makeSureGlobalIsSet("DisabledInRaid")
+    makeSureGlobalIsSet("DisabledInArena")
 end
 -- toggle to allow users to prevent noise while in combat
 local function onLoad(self, event, arg1)
     if name ~= arg1 then return
     end
+
+    local interfaceTitle = interface:CreateFontString("interfaceTitleText", "OVERLAY")
+    interfaceTitle:SetPoint("TOPLEFT", 15, -15)
+    interfaceTitle:SetFont("Fonts\\FRIZQT__.TTF", 16)
+    interfaceTitle:SetText("Taunterino")
+    interfaceTitle:SetTextColor(1, 0.80, 0.20, 1.0);
+
+    local interfaceDescription = interface:CreateFontString("interfaceDescriptText", "OVERLAY")
+    interfaceDescription:SetPoint("TOPLEFT", 15, -37)
+    interfaceDescription:SetFont("Fonts\\FRIZQT__.TTF", 10)
+    interfaceDescription:SetText("Configuration options to customize your taunting experience")
+
+    local disableTitle = interface:CreateFontString("disableTitle", "OVERLAY")
+    disableTitle:SetPoint("TOPLEFT", 15, -75)
+    disableTitle:SetFont("Fonts\\FRIZQT__.TTF", 12)
+    disableTitle:SetText("Mute taunts while in:")
+    disableTitle:SetTextColor(1, 0.80, 0.20, 1.0);
+
+    local line = interface:CreateLine()
+    line:SetColorTexture(1,1,1,1)
+    line:SetStartPoint("TOPLEFT",15, -93)
+    line:SetEndPoint("TOPRIGHT",-15, -93)
+    line:SetThickness(0.5)
+
     checkForInitialLoad()
 
-    addInterfaceToggleButton(-20, 'Disable in Combat', 'DisabledInCombat')
-    addInterfaceToggleButton(-45, 'Disable in World', 'DisabledInWorld')
-    addInterfaceToggleButton(-70, 'Disable in Battleground', 'DisabledInBattleground')
-    addInterfaceToggleButton(-95, 'Disable in Dungeon', 'DisabledInDungeon')
-    addInterfaceToggleButton(-120, 'Disable in Raid', 'DisabledInRaid')
-
+    
+    local buttonYBeginning = -100
+    addInterfaceToggleButton(buttonYBeginning, 'Combat', 'DisabledInCombat')
+    addInterfaceToggleButton(buttonYBeginning - 25, 'World', 'DisabledInWorld')
+    addInterfaceToggleButton(buttonYBeginning - 50, 'Battleground', 'DisabledInBattleground')
+    addInterfaceToggleButton(buttonYBeginning - 75, 'Dungeon', 'DisabledInDungeon')
+    addInterfaceToggleButton(buttonYBeginning - 100, 'Raid', 'DisabledInRaid')
+    addInterfaceToggleButton(buttonYBeginning - 125, 'Arena', 'DisabledInArena')
+    
     interface.name = "Taunterino"
+    interface.title = "Taunterino"
     InterfaceOptions_AddCategory(interface)
 end
 interface:SetScript("OnEvent", onLoad)
@@ -95,6 +117,10 @@ local function shouldPlay()
         if instanceType == "raid" then return false
         end
     end
+    if (DisabledInArena) then
+        if instanceType == "arena" then return false
+        end
+    end
     return true
 end
 
@@ -102,7 +128,6 @@ end
 local frame = CreateFrame("Frame", "Taunterino")
 frame:RegisterEvent("CHAT_MSG_GUILD")
 local function guildMessageHandler(self, event, message, ...)
-    print(DisabledInCombat, DisabledInWorld, DisabledInBattleground, DisabledInDungeon, DisabledInRaid)
     if shouldPlay() then
         if (string.match(message, '^[0-9]+$'))
         then 
