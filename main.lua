@@ -81,8 +81,8 @@ function dropdownMenuInitialize(frame, level, menuList)
     info.arg1 = frame
     info.arg2 = "Master"
     UIDropDownMenu_AddButton(info)
-    info.text, info.checked = "Sound", (_G["SoundChannel"] == "Sound")
-    info.arg2 = "Sound"
+    info.text, info.checked = "Sound", (_G["SoundChannel"] == "SFX")
+    info.arg2 = "SFX"
     UIDropDownMenu_AddButton(info)
     info.text, info.checked = "Music", (_G["SoundChannel"] == "Music")
     info.arg2 = "Music"
